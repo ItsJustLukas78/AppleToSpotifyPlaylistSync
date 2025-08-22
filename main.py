@@ -90,7 +90,7 @@ def find_spotify_tracks(sp, apple_tracks):
             if not result['tracks']['items']:
                 print("  > No exact match found. Cleaning title and trying again...")
                 # Use regex to remove (feat. ...), (with ...), etc.
-                cleaned_name = re.sub(r'\s*\([^)]*\)', '', name).strip()
+                cleaned_name = re.sub(r'\s*\([^)]*\)|\s*\[[^\]]*\]', '', name).strip()
 
                 if cleaned_name != name:  # Only search again if the name was actually changed
                     print(f"  > Cleaned title: '{cleaned_name}'")
@@ -114,7 +114,7 @@ def find_spotify_tracks(sp, apple_tracks):
             print(f"    - An error occurred while searching for '{name}': {e}")
             not_found_tracks.append(f"{artist} - {name} (Error during search)")
 
-        time.sleep(0.2)  # A smaller delay is fine for this non-interactive version
+        time.sleep(0.1)  # A smaller delay is fine for this non-interactive version
 
     print(f"\n-> Search complete.")
     return found_tracks, not_found_tracks
